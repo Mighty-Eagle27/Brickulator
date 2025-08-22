@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Reality to Bricks / Studs</title>
+    <link rel="stylesheet" type="text/css" href="trueconvert.css">
+</head>
+<body>
+    <h1>Reality to Bricks / Studs</h1>
+    
+    <!-- Dropdown to select the input unit (meters or centimeters) -->
+    <label for="unit">Select the unit:</label>
+    <select id="unit" onchange="convertLengthOrHeight()">
+        <option value="meters">Meters</option>
+        <option value="centimeters">Centimeters</option>
+    </select>
+    
+    <!-- Input field for the length or height value -->
+    <label for="inputValue">Enter the length or height:</label>
+    <input type="text" id="inputValue" placeholder="Enter length or height" />
+
+    <p>Result:</p>
+    <div id="box">
+        <p id="studsResult">Result will appear here.</p>
+        <p id="bricksResult"></p>
+    </div>
+
+    <!-- Link to another calculator -->
+    <div class="switch-container">
+        <a href="Converter.html" class="switch-button">Switch to Minifigure Scale Calculator</a>
+    </div>
+
+    
+    <script>
+    // Gets called whenever input changes or the unit selection changes
+    function convertLengthOrHeight() {
+    // Get unit value (m/cm) from dropdown and read number from textfield and turn it into a float
+    const unit = document.getElementById("unit").value;
+    const inputValue = document.getElementById("inputValue").value;
+    
+    // "Sometimes, if you listen very carefully, you can hear my genius." ~ Jeremy Clarkson
+    inputValue = inputValue.replace(",", ".");
+    
+        
+    const value = parseFloat(inputValue);
+    
+    // Check if parsed succesfully (eg. if user gives "Döner" as value it will not work)
+    if (!isNaN(value)) {
+        
+        // Entire Conversion logic, via the set ratios
+        
+        // Convert to cm
+        const centimeters = (unit === 'meters') ? value * 100 : value;
+
+        // Brick constants
+        const studsPerCm = 1.25;
+        const brickHeight = 1.15;   
+        const plateHeight = brickHeight / 3; 
+
+        
+        const studs = centimeters * studsPerCm;
+        // Bricks + remainder
+        let fullBricks = Math.floor(centimeters / brickHeight);
+        let remainder = centimeters - (fullBricks * brickHeight);
+
+
+        let plates = Math.floor(remainder / plateHeight);
+
+        // Additionally needed logic: 3 plates = 1 brick
+        if (plates === 3) {
+            fullBricks += 1;
+            plates = 0;
+        }
+
+        // Output via textbox at the bottom of the page
+        document.getElementById("studsResult").textContent =
+            `${value} ${unit} is ${studs.toFixed(2)} studs wide.`;
+
+        document.getElementById("bricksResult").textContent =
+            `${value} ${unit} is ${fullBricks} bricks and ${plates} plates tall.`;
+    } else {
+        document.getElementById("studsResult").textContent = "Please enter a valid number.";
+        document.getElementById("bricksResult").textContent = "";
+    }
+}                 
+        // Live conversion on typing
+        document.getElementById("inputValue").addEventListener("input", convertLengthOrHeight);
+    </script>
+</body>
+</html>

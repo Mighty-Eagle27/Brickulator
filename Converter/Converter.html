@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Convert Meters or Centimeters to Studs and Bricks</title>
+    <link rel="stylesheet" type="text/css" href="Converter.css">
+</head>
+<body>
+    <h1>Minifigure Scale Calculator</h1>
+
+    <label for="unit">Select the unit:</label>
+    <select id="unit" onchange="convertLength()">
+        <option value="meters">Meters</option>
+        <option value="centimeters">Centimeters</option>
+    </select>
+
+    <label for="inputValue">Enter the length:</label>
+    <input type="text" id="inputValue" oninput="convertLength()" placeholder="Enter length" />
+
+    <p>Result:</p>
+    <div class="gradient-border" id="box">
+        <p id="studsResult"></p>
+        <p id="bricksResult"></p>
+    </div>
+
+    <!-- Moved Switch Button to the bottom -->
+    <div class="switch-container">
+        <a href="trueconvert.html" class="switch-button">Switch to Real to Brick converter</a>
+    </div>
+
+    <script>
+        document.getElementById("inputValue").addEventListener("input", function() {
+            this.value = this.value.replace(/,/g, '.');
+        });
+
+        function convertLength() {
+            const unit = document.getElementById("unit").value;
+            const inputValue = document.getElementById("inputValue").value;
+            const value = parseFloat(inputValue);
+
+            if (!isNaN(value)) {
+                let centimeters = unit === 'meters' ? value * 100 : value;
+
+                const studs = (centimeters / 180) * 5;
+                const bricks = (centimeters / 180) * 4;
+
+                document.getElementById("studsResult").textContent = `${value} ${unit} is ${studs.toFixed(2)} studs.`;
+                document.getElementById("bricksResult").textContent = `${value} ${unit} is ${bricks.toFixed(2)} bricks.`;
+            } else {
+                document.getElementById("studsResult").textContent = "Please enter a valid number.";
+                document.getElementById("bricksResult").textContent = "";
+            }
+        }
+    </script>
+</body>
+</html>
