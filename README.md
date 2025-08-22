@@ -1,4 +1,4 @@
-# Bricksizes-to-real-life-converter
+# Brickulator, the best Bricksize calculator
 Ever wanted to know how many bricks tall your coffe mashine would be in Minifigure Scale? Or wanted to know how many studs wide your build can be whilst still fitting into your shelf? This tool is the solution.
 
 # The magical math of LEGO 🔧
